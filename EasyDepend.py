@@ -2,20 +2,23 @@ from git import Repo
 import os
 import xml.etree.ElementTree as ET
 
-tree = ET.parse('default.xml')
-for elem in tree.iter():
-    print(elem)
-    
+def cloneDependencies(path):
+    if os.path.exists(path+'/default.xml'):
+        tree = ET.parse(path+'/default.xml')
+        manifest = tree.getroot();
+        for child in manifest:
+            if child.tag == "project":
+                projectName = child.get('name')
+                projectRemote = child.get('remote')
+                projectRevision = child.get('revision')
+                for child2 in manifest:
+                    if child2.tag == "remote":
+                        remoteName = child2.get('name')
+                        if remoteName == projectRemote:
+                            projectFetch = child2.get('fetch')
+                print("Clone to",path+"/"+projectName)
+                Repo.clone_from(projectFetch+"/"+projectName+".git", path+"/"+projectName)
+                cloneDependencies(path+"/"+projectName)
 
-dirpath = os.getcwd()
-
-
-#cloned_repo = repo.clone(os.path.join(rw_dir, 'to/this/path'))
-
-#import git
-#git.Git(dirpath).clone("git://gitorious.org/git-python/mainline.git")
-#from git import Rep
-
-Repo.clone_from("git@github.com:mezorian/EasyDepend.git", dirpath+"/EasyDepend")
-
-print("Hello World!")
+currentPath = os.getcwd()
+cloneDependencies(currentPath)
