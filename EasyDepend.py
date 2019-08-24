@@ -1,6 +1,5 @@
 from git import Repo
 import git
-
 import os
 import xml.etree.ElementTree as ET
 
@@ -29,7 +28,6 @@ def cloneDependencies(path):
 
                 # loop again over all elements to find the remote fetch url
                 for child2 in manifest:
-                    print ("<<<<<<<",child2.tag)
                     if child2.tag == "remote":
                         remoteName = child2.get('name')
                         if remoteName == projectRemote:
@@ -57,6 +55,3 @@ def cloneDependencies(path):
                 # if this repository again contains a manifest, again all
                 # dependencies are cloned
                 cloneDependencies(path+"/"+cloneToPath)
-
-currentPath = os.getcwd()
-cloneDependencies(currentPath)
