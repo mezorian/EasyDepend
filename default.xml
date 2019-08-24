@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<manifest>
+	<remote  name="github" fetch="https://github.com" />
+	<default revision="refs/heads/master" remote="github" sync-j="4" />
+	<project name="mezorian/DepTest_ModuleA" remote="github" revision="master" />
+  	<project name="mezorian/DepTest_ModuleB" remote="github" revision="master" />
+  	<project name="mezorian/DepTest_ModuleC" remote="github" revision="master" />
+</manifest>
